@@ -3,13 +3,19 @@ import { supabase } from '@/lib/supabase';
 import { fetchAllInternships } from '@/lib/fetcher';
 import { sendTelegramMessage } from '@/lib/telegram';
 export async function GET(request: Request) {
+const url = new URL(request.url);
+const secretParam = url.searchParams.get("secret");
+const authHeader = request.headers.get("authorization");
 
-    const url = new URL(request.url);
-    const secret = url.searchParams.get("secret");
+const validSecret = process.env.CRON_SECRET;
 
-    if (process.env.CRON_SECRET && secret !== process.env.CRON_SECRET) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+if (
+  validSecret &&
+  authHeader !== `Bearer ${validSecret}` &&
+  secretParam !== validSecret
+) {
+  return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+}
 
     try {
         console.log("Cron started: Fetching internships...");
