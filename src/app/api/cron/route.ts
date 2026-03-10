@@ -2,12 +2,12 @@ import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { fetchAllInternships } from '@/lib/fetcher';
 import { sendTelegramMessage } from '@/lib/telegram';
-
 export async function GET(request: Request) {
-    // Note: Vercel Cron will hit this endpoint using a secret
+
     const url = new URL(request.url);
-    const authHeader = request.headers.get('authorization');
-    if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    const secret = url.searchParams.get("secret");
+
+    if (process.env.CRON_SECRET && secret !== process.env.CRON_SECRET) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
