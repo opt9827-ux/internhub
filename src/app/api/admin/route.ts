@@ -21,7 +21,7 @@ export async function POST(request: Request) {
         const body = await request.json()
         console.log("[API /admin] Parsed body:", body)
         
-        const { title, link, deadline, description, source_college } = body
+        const { title, link, deadline, description, source_college, location, amount } = body
 
         if (!title || typeof title !== "string" || title.trim().length === 0) {
             console.log("[API /admin] Validation failed: Invalid Title")
@@ -32,6 +32,19 @@ export async function POST(request: Request) {
             console.log("[API /admin] Validation failed: Invalid Link")
             return NextResponse.json({ error: "Apply link is required and must be a valid URL starting with http." }, { status: 400 })
         }
+        
+        if (!location || typeof location !== "string" || location.trim().length === 0) {
+            console.log("[API /admin] Validation failed: Invalid Location")
+            return NextResponse.json({ error: "Location is required." }, { status: 400 })
+        }
+        
+        if (!amount || typeof amount !== "string" || amount.trim().length === 0) {
+            console.log("[API /admin] Validation failed: Invalid Amount")
+            return NextResponse.json({ error: "Stipend Amount is required." }, { status: 400 })
+        }
+        
+        // Handle "Unpaid" string generation cleanly
+        const parsedStipend = amount.trim() === "0" ? "Unpaid" : amount.trim()
 
         const slug = generateSlug(title)
         console.log(`[API /admin] Generated slug: ${slug}`)
@@ -40,15 +53,15 @@ export async function POST(request: Request) {
             title: title,
             slug: slug,
             company: "Company",
-            location: "Remote",
-            stipend: null,
+            location: location.trim(),
+            stipend: parsedStipend,
             deadline: deadline || null,
             description: description || null,
             apply_url: link,
             source_id: `manual-${Date.now()}`,
             platform: "Manual",
             category: "Computer Science",
-            remote: true,
+            remote: location.toLowerCase().includes("remote"),
             is_active: true,
             created_at: new Date().toISOString(),
             source_college: source_college || null
