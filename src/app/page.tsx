@@ -68,7 +68,6 @@ async function InternshipFeed({ searchParams }: { searchParams: { [key: string]:
     );
   }
 
-<<<<<<< HEAD
   const now = new Date();
   const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
 
@@ -89,11 +88,6 @@ async function InternshipFeed({ searchParams }: { searchParams: { [key: string]:
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {sortedInternships.map(internship => (
-=======
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {internships.map(internship => (
->>>>>>> a79548e30871cd714e6b9acf40fdcc23ca54ac20
         <InternshipCard key={internship.slug} internship={internship} />
       ))}
     </div>

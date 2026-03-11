@@ -6,10 +6,7 @@ export default function AdminPage() {
   const [title, setTitle] = useState("")
   const [link, setLink] = useState("")
   const [deadline, setDeadline] = useState("")
-<<<<<<< HEAD
   const [description, setDescription] = useState("")
-=======
->>>>>>> a79548e30871cd714e6b9acf40fdcc23ca54ac20
   const [sourceCollege, setSourceCollege] = useState("")
   const [status, setStatus] = useState<{ type: "success" | "error" | null; message: string }>({ type: null, message: "" })
   const [loading, setLoading] = useState(false)
@@ -22,11 +19,7 @@ export default function AdminPage() {
       const res = await fetch("/api/admin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-<<<<<<< HEAD
         body: JSON.stringify({ title, link, deadline, description, source_college: sourceCollege }),
-=======
-        body: JSON.stringify({ title, link, deadline, source_college: sourceCollege }),
->>>>>>> a79548e30871cd714e6b9acf40fdcc23ca54ac20
       })
       const data = await res.json()
       if (!res.ok) {
@@ -36,10 +29,7 @@ export default function AdminPage() {
       setTitle("")
       setLink("")
       setDeadline("")
-<<<<<<< HEAD
       setDescription("")
-=======
->>>>>>> a79548e30871cd714e6b9acf40fdcc23ca54ac20
       setSourceCollege("")
     } catch (error: any) {
       setStatus({ type: "error", message: error.message })
@@ -79,7 +69,6 @@ export default function AdminPage() {
           />
         </div>
         <div>
-<<<<<<< HEAD
           <label className="block text-sm font-medium mb-1" htmlFor="description">
             Description (optional)
           </label>
@@ -92,8 +81,6 @@ export default function AdminPage() {
           ></textarea>
         </div>
         <div>
-=======
->>>>>>> a79548e30871cd714e6b9acf40fdcc23ca54ac20
           <label className="block text-sm font-medium mb-1" htmlFor="deadline">
             Deadline (optional)
           </label>
