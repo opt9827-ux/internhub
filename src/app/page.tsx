@@ -10,7 +10,7 @@ import { Internship } from '@/lib/fetcher';
 import { supabase } from '@/lib/supabase';
 
 async function getInternships(searchParams: { [key: string]: string | undefined }) {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const url = new URL('/api/internships', baseUrl);
 
   if (searchParams.search) url.searchParams.set('search', searchParams.search);
