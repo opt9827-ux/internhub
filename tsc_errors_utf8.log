@@ -1,0 +1,12 @@
+﻿.next/types/validator.ts(81,31): error TS2344: Type 'typeof import("C:/Users/palap/Downloads/internhub-v2/src/app/api/internships/[slug]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/internships/[slug]">'.
+  Types of property 'GET' are incompatible.
+    Type '(request: Request, { params }: { params: { slug: string; }; }) => Promise<NextResponse<{ error: string; }> | NextResponse<{ internship: any; }>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ slug: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ slug: string; }>; }' is not assignable to type '{ params: { slug: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'slug' is missing in type 'Promise<{ slug: string; }>' but required in type '{ slug: string; }'.
+src/components/ExpiringTicker.tsx(22,27): error TS2353: Object literal may only specify known properties, and 'slug' does not exist in type 'Partial<Internship>'.
+src/components/ExpiringTicker.tsx(23,27): error TS2353: Object literal may only specify known properties, and 'slug' does not exist in type 'Partial<Internship>'.
+src/components/ExpiringTicker.tsx(24,27): error TS2353: Object literal may only specify known properties, and 'slug' does not exist in type 'Partial<Internship>'.
+src/components/ExpiringTicker.tsx(49,49): error TS2339: Property 'slug' does not exist on type 'Partial<Internship>'.
+src/components/ExpiringTicker.tsx(50,63): error TS2339: Property 'slug' does not exist on type 'Partial<Internship>'.
