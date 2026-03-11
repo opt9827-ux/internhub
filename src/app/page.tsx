@@ -10,22 +10,41 @@ import { Internship } from '@/lib/fetcher';
 import { supabase } from '@/lib/supabase';
 
 async function getInternships(searchParams: { [key: string]: string | undefined }) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-  const url = new URL('/api/internships', baseUrl);
+  let query = supabase
+    .from('internships')
+    .select('*')
+    .eq('is_active', true)
+    .order('created_at', { ascending: false });
 
-  if (searchParams.search) url.searchParams.set('search', searchParams.search);
-  if (searchParams.platform) url.searchParams.set('platform', searchParams.platform);
-  if (searchParams.remote) url.searchParams.set('remote', searchParams.remote);
-  if (searchParams.category) url.searchParams.set('category', searchParams.category);
-  if (searchParams.expiring) url.searchParams.set('expiring', searchParams.expiring);
+  if (searchParams.search) {
+    query = query.or(`title.ilike.%${searchParams.search}%,company.ilike.%${searchParams.search}%`);
+  }
+  if (searchParams.platform) {
+    query = query.eq('platform', searchParams.platform);
+  }
+  if (searchParams.remote === 'true') {
+    query = query.eq('remote', true);
+  }
+  if (searchParams.category) {
+    query = query.ilike('category', `%${searchParams.category}%`);
+  }
+
+  // Handle expiring filtering
+  if (searchParams.expiring === 'true') {
+    const now = new Date();
+    const tomorrow = new Date();
+    tomorrow.setHours(now.getHours() + 24);
+    query = query
+      .gte('deadline', now.toISOString())
+      .lte('deadline', tomorrow.toISOString());
+  }
 
   try {
-    const res = await fetch(url.toString(), { cache: 'no-store' });
-    if (!res.ok) throw new Error('API Error');
-    const data = await res.json();
-    return { internships: (data.internships || []) as (Internship & { slug: string })[], error: null };
+    const { data, error } = await query;
+    if (error) throw error;
+    return { internships: (data || []) as (Internship & { slug: string })[], error: null };
   } catch (error) {
-    console.error("Fetch error:", error);
+    console.error("Supabase query error:", error);
     return { internships: [], error };
   }
 }
