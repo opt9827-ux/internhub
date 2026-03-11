@@ -24,23 +24,14 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: "Title and link required" }, { status: 400 })
         }
 
-        /* ---------- PLATFORM DETECTION ---------- */
-
-        let platform = "Manual"
-
-        if (link.includes("linkedin.com")) platform = "LinkedIn"
-        if (link.includes("internshala.com")) platform = "Internshala"
-        if (link.includes("wellfound.com")) platform = "Wellfound"
-        if (link.includes("indeed.com")) platform = "Indeed"
-
         const slug = generateSlug(title)
 
         const { data, error } = await supabase
             .from("internships")
             .insert([
                 {
-                    title,
-                    slug,
+                    title: title,
+                    slug: slug,
                     company: "Company",
                     location: "Remote",
                     stipend: null,
@@ -48,7 +39,7 @@ export async function POST(request: Request) {
                     description: null,
                     apply_url: link,
                     source_id: `manual-${Date.now()}`,
-                    platform,
+                    platform: "Manual",
                     category: "Computer Science",
                     remote: true,
                     is_active: true,
@@ -59,7 +50,14 @@ export async function POST(request: Request) {
         if (error) throw error
 
         await sendTelegramMessage(
-            `🚀 New Internship Alert!\n\n${title}\n\nApply here:\n${link}\n\n🌐 https://internhub-iota.vercel.app`
+`🚀 New Internship Posted!
+
+${title}
+
+Apply here:
+${link}
+
+🌐 https://internhub-iota.vercel.app`
         )
 
         return NextResponse.json({
