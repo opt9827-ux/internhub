@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     try {
 
         const body = await request.json()
-        const { title, link } = body
+        const { title, link, deadline, source_college } = body
 
         if (!title || !link) {
             return NextResponse.json({ error: "Title and link required" }, { status: 400 })
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
                     company: "Company",
                     location: "Remote",
                     stipend: null,
-                    deadline: null,
+                    deadline: deadline || null,
                     description: null,
                     apply_url: link,
                     source_id: `manual-${Date.now()}`,
@@ -43,7 +43,8 @@ export async function POST(request: Request) {
                     category: "Computer Science",
                     remote: true,
                     is_active: true,
-                    created_at: new Date().toISOString()
+                    created_at: new Date().toISOString(),
+                    source_college: source_college || null
                 }
             ])
 
@@ -56,6 +57,8 @@ ${title}
 
 Apply here:
 ${link}
+
+🎓 Shared via ${source_college || 'Manual'}
 
 🌐 https://internhub-iota.vercel.app`
         )

@@ -13,6 +13,7 @@ export interface Internship {
   source_id: string
   category: string
   remote: boolean
+  source_college?: string | null
 }
 
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms))
