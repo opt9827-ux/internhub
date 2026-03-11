@@ -52,7 +52,8 @@ export async function POST(request: Request) {
           platform,
           category: "Computer Science",
           remote: true,
-          is_active: true
+          is_active: true,
+          created_at: new Date().toISOString()
         }
       ])
 

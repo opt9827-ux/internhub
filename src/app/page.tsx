@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+export const dynamic = 'force-dynamic';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ExpiringTicker from '@/components/ExpiringTicker';
@@ -9,27 +10,24 @@ import { Internship } from '@/lib/fetcher';
 import { supabase } from '@/lib/supabase';
 
 async function getInternships(searchParams: { [key: string]: string | undefined }) {
-  let query = supabase
-    .from('internships')
-    .select('*')
-    .eq('is_active', true)
-    .order('created_at', { ascending: false });
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const url = new URL('/api/internships', baseUrl);
 
-  if (searchParams.search) {
-    query = query.or(`title.ilike.%${searchParams.search}%,company.ilike.%${searchParams.search}%`);
-  }
-  if (searchParams.platform) {
-    query = query.eq('platform', searchParams.platform);
-  }
-  if (searchParams.remote === 'true') {
-    query = query.eq('remote', true);
-  }
-  if (searchParams.category) {
-    query = query.ilike('category', `%${searchParams.category}%`);
-  }
+  if (searchParams.search) url.searchParams.set('search', searchParams.search);
+  if (searchParams.platform) url.searchParams.set('platform', searchParams.platform);
+  if (searchParams.remote) url.searchParams.set('remote', searchParams.remote);
+  if (searchParams.category) url.searchParams.set('category', searchParams.category);
+  if (searchParams.expiring) url.searchParams.set('expiring', searchParams.expiring);
 
-  const { data, error } = await query;
-  return { internships: (data || []) as (Internship & { slug: string })[], error };
+  try {
+    const res = await fetch(url.toString(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('API Error');
+    const data = await res.json();
+    return { internships: (data.internships || []) as (Internship & { slug: string })[], error: null };
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return { internships: [], error };
+  }
 }
 
 async function InternshipFeed({ searchParams }: { searchParams: { [key: string]: string | undefined } }) {
