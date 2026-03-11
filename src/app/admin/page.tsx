@@ -16,12 +16,17 @@ export default function AdminPage() {
     setLoading(true)
     setStatus({ type: null, message: "" })
     try {
+      console.log("Initiating fetch to /api/admin with payload:", { title, link, deadline, description, source_college: sourceCollege })
       const res = await fetch("/api/admin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, link, deadline, description, source_college: sourceCollege }),
       })
+      console.log("Received response with status:", res.status)
+      
       const data = await res.json()
+      console.log("Response JSON data:", data)
+      
       if (!res.ok) {
         throw new Error(data.error || "Failed to submit")
       }
