@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { supabase } from "@/lib/supabase"
+import { sendTelegramMessage } from "@/lib/telegram"
 
 function generateSlug(title: string) {
     return (
@@ -17,10 +18,10 @@ export async function POST(request: Request) {
     try {
 
         const body = await request.json()
-        const { link } = body
+        const { title, link } = body
 
-        if (!link) {
-            return NextResponse.json({ error: "Link required" }, { status: 400 })
+        if (!title || !link) {
+            return NextResponse.json({ error: "Title and link required" }, { status: 400 })
         }
 
         /* ---------- PLATFORM DETECTION ---------- */
@@ -31,8 +32,6 @@ export async function POST(request: Request) {
         if (link.includes("internshala.com")) platform = "Internshala"
         if (link.includes("wellfound.com")) platform = "Wellfound"
         if (link.includes("indeed.com")) platform = "Indeed"
-
-        const title = "Internship Opportunity"
 
         const slug = generateSlug(title)
 
@@ -58,6 +57,10 @@ export async function POST(request: Request) {
             ])
 
         if (error) throw error
+
+        await sendTelegramMessage(
+            `🚀 New Internship Alert!\n\n${title}\n\nApply here:\n${link}\n\n🌐 https://internhub-iota.vercel.app`
+        )
 
         return NextResponse.json({
             success: true,
