@@ -62,15 +62,23 @@
 }
 
 /* Animations */
-@keyframes marquee {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+@keyframes verticalScroll {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(-100%); }
 }
 
-.animate-marquee {
-  animation: marquee 35s linear infinite;
+.ticker-container {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
 }
 
-.animate-marquee:hover {
+.ticker-content {
+  display: flex;
+  flex-direction: column;
+  animation: verticalScroll 35s linear infinite;
+}
+
+.ticker-content:hover {
   animation-play-state: paused;
 }
