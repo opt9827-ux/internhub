@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Search } from 'lucide-react';
 import { Suspense } from 'react';
-import SearchBar from '@/components/SearchBar';
 
 export default function Navbar() {
     return (
@@ -16,9 +15,9 @@ export default function Navbar() {
                     <Link href="/resumes" className="hover:text-primary-foreground transition-colors">Resumes</Link>
                 </div>
                 <div className="flex items-center space-x-4">
-                    <Suspense fallback={<div className="w-32 h-9 bg-white/5 animate-pulse rounded-full hidden sm:block"></div>}>
-                        <SearchBar />
-                    </Suspense>
+                    <button className="p-2 text-muted-foreground hover:text-primary-foreground transition-colors rounded-full hover:bg-white/5">
+                        <Search className="w-5 h-5" />
+                    </button>
                     <a
                         href="https://t.me/internhub_cs"
                         target="_blank"

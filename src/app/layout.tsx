@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import GuidelineRedirect from '@/components/GuidelineRedirect';
+import GuidelinesTicker from '@/components/GuidelinesTicker';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${inter.className} min-h-screen bg-[var(--background)] antialiased transition-colors duration-300`}>
         <GuidelineRedirect />
+        <GuidelinesTicker />
         {children}
       </body>
     </html>

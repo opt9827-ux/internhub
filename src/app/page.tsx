@@ -7,6 +7,7 @@ import FilterBar from '@/components/FilterBar';
 import InternshipCard from '@/components/InternshipCard';
 import TelegramBanner from '@/components/TelegramBanner';
 import PlatformsSection from '@/components/PlatformsSection';
+import SearchBar from '@/components/SearchBar';
 import { Internship } from '@/lib/fetcher';
 import { supabase } from '@/lib/supabase';
 
@@ -138,6 +139,10 @@ export default function Home({ searchParams }: { searchParams: { [key: string]: 
               <p className="text-gray-500 font-medium mt-1">Updated automatically from top platforms</p>
             </div>
           </div>
+
+          <Suspense fallback={<div className="h-12 w-full bg-gray-100 animate-pulse rounded-2xl mb-6"></div>}>
+            <SearchBar />
+          </Suspense>
 
           <Suspense fallback={
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
