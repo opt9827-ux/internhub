@@ -6,6 +6,7 @@ import ExpiringTicker from '@/components/ExpiringTicker';
 import FilterBar from '@/components/FilterBar';
 import InternshipCard from '@/components/InternshipCard';
 import TelegramBanner from '@/components/TelegramBanner';
+import PlatformsSection from '@/components/PlatformsSection';
 import { Internship } from '@/lib/fetcher';
 import { supabase } from '@/lib/supabase';
 
@@ -17,7 +18,8 @@ async function getInternships(searchParams: { [key: string]: string | undefined 
     .order('created_at', { ascending: false });
 
   if (searchParams.search) {
-    query = query.or(`title.ilike.%${searchParams.search}%,company.ilike.%${searchParams.search}%`);
+    const s = searchParams.search;
+    query = query.or(`title.ilike.%${s}%,company.ilike.%${s}%,platform.ilike.%${s}%,source_college.ilike.%${s}%`);
   }
   if (searchParams.platform) {
     query = query.eq('platform', searchParams.platform);
@@ -149,6 +151,10 @@ export default function Home({ searchParams }: { searchParams: { [key: string]: 
         <section className="py-16 max-w-7xl mx-auto">
           <TelegramBanner />
         </section>
+
+        <div className="max-w-7xl mx-auto w-full pb-16">
+          <PlatformsSection />
+        </div>
       </div>
 
       <Footer />

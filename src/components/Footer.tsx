@@ -9,8 +9,6 @@ export default function Footer() {
                     <p className="text-sm text-muted-foreground mt-1">The automated internship aggregator for CS students.</p>
                 </div>
                 <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                    <Link href="/" className="hover:text-primary-foreground transition-colors">Privacy Policy</Link>
-                    <Link href="/" className="hover:text-primary-foreground transition-colors">Terms of Service</Link>
                     <a href="https://t.me/internhub_cs" target="_blank" rel="noopener noreferrer" className="hover:text-primary-foreground transition-colors">Telegram</a>
                 </div>
             </div>
