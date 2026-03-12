@@ -21,27 +21,25 @@ export default function GuidelinesTicker() {
   ];
 
   return (
-    <div className="w-full bg-blue-900 border-b border-blue-800 text-white z-50">
-      <div className="ticker-container w-full max-w-7xl mx-auto px-4">
-        <div className="ticker-content py-4 gap-6">
-          {guidelines.map((item, index) => (
-            <div 
-              key={index} 
-              className={`flex items-start gap-3 ${item.highlight ? 'text-red-400 font-bold bg-red-950/30 p-2 rounded-lg' : 'text-blue-50'}`}
-            >
-              <div className="mt-1 flex-shrink-0">
-                {item.highlight ? (
-                  <span className="text-red-500 text-lg leading-none">⚠️</span>
-                ) : (
-                  <span className="w-2 h-2 rounded-full bg-blue-500 inline-block opacity-60"></span>
-                )}
-              </div>
-              <span className="text-sm md:text-base leading-relaxed tracking-wide">
-                {item.text}
-              </span>
+    <div className="guidelines-sidebar">
+      <div className="ticker-content">
+        {guidelines.map((item, index) => (
+          <div 
+            key={index} 
+            className={`flex items-start gap-3 p-3 rounded-lg border ${item.highlight ? 'bg-red-50 border-red-100' : 'bg-white border-gray-100 shadow-sm'}`}
+          >
+            <div className="mt-1 flex-shrink-0">
+              {item.highlight ? (
+                <span className="text-red-500 text-lg leading-none">⚠️</span>
+              ) : (
+                <span className="w-2 h-2 rounded-full bg-blue-500 inline-block opacity-60"></span>
+              )}
             </div>
-          ))}
-        </div>
+            <span className={`text-sm leading-relaxed tracking-wide ${item.highlight ? 'text-red-700 font-semibold' : 'text-gray-700'}`}>
+              {item.text}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );

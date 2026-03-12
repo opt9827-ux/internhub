@@ -62,23 +62,52 @@
 }
 
 /* Animations */
-@keyframes verticalScroll {
-  0% { transform: translateY(100%); }
-  100% { transform: translateY(-100%); }
-}
-
-.ticker-container {
-  height: 200px;
+.guidelines-sidebar {
+  position: fixed;
+  left: 0;
+  top: 64px;
+  width: 260px;
+  height: calc(100vh - 64px);
   overflow: hidden;
-  position: relative;
+  background: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+  padding: 12px;
+  z-index: 40;
 }
 
 .ticker-content {
   display: flex;
   flex-direction: column;
-  animation: verticalScroll 35s linear infinite;
+  gap: 12px;
+  animation: verticalScroll 40s linear infinite;
+}
+
+@keyframes verticalScroll {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(-100%); }
 }
 
 .ticker-content:hover {
   animation-play-state: paused;
+}
+
+.layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 260px;
+  width: calc(100% - 260px);
+}
+
+@media (max-width: 1024px) {
+  .guidelines-sidebar {
+    display: none;
+  }
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
 }

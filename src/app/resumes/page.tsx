@@ -32,12 +32,6 @@ export default function ResumesPage() {
     }
   ];
 
-  const handleDownload = (id: string, title: string) => {
-      // In a real application, you'd trigger a PDF download link here.
-      // E.g., const link = document.createElement("a"); link.href = `/templates/${id}.pdf`; link.click();
-      alert(`The ${title} PDF template download will begin shortly. Ensure your pop-ups are allowed!`);
-  }
-
   return (
     <main className="min-h-screen bg-gray-50 text-gray-900 font-sans flex flex-col">
       <Navbar />
@@ -76,13 +70,14 @@ export default function ResumesPage() {
                             {resume.description}
                         </p>
                         
-                        <button 
-                            onClick={() => handleDownload(resume.id, resume.title)}
-                            className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-white shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5 bg-gradient-to-r ${resume.gradient}`}
+                        <a 
+                            href={`/resumes/${resume.id}-resume.pdf`}
+                            download
+                            className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl font-bold text-white shadow-sm hover:shadow-md transition-all duration-200 transform hover:-translate-y-0.5 bg-gradient-to-r ${resume.gradient} resume-card`}
                         >
                             <Download className="w-5 h-5" />
                             Download PDF Template
-                        </button>
+                        </a>
                     </div>
                 </div>
             ))}

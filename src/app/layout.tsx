@@ -20,8 +20,12 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${inter.className} min-h-screen bg-[var(--background)] antialiased transition-colors duration-300`}>
         <GuidelineRedirect />
-        <GuidelinesTicker />
-        {children}
+        <div className="layout-wrapper">
+          <GuidelinesTicker />
+          <main className="main-content">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );
